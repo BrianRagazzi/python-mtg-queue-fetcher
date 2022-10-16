@@ -1,0 +1,32 @@
+body {
+    background-color: #000000;
+    color: lightgray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: block;
+}
+p {
+    color: lightgray;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: block;
+    margin-top: 10px;
+}
+a:link {
+    color: cornflowerblue;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:visited {
+    color: cornflowerblue;
+    background-color: transparent;
+    text-decoration: none;
+}
+a:hover {
+    color: cornflowerblue;
+    background-color: transparent;
+    text-decoration: underline;
+}
+a:active {
+    color: cornflowerblue;
+    background-color: transparent;
+    text-decoration: underline;
+}

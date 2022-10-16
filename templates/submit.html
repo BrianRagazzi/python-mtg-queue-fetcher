@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}" type="text/css" />
+  </head>
+  <body>
+    <center>
+        {% if client %}
+            <h2>{{client}}</h2>
+        {% else %}
+            <p>client not set</p>
+        {% endif %}
+        <p>{{placeholder}}</p>
+        <form action="{{ url_for("loadset")}}" method="post">
+        Choose Set:<SELECT name="setcode">
+            {% for set in codelist %}
+                <OPTION value={{set["code"]}}>{{set["name"]}}</OPTION>
+            {% endfor %}
+        </SELECT>
+
+        <button type="submit">Fetch Data</button>
+        <ul>
+        {% for item in list %}
+            <li>added {{ item["name"] }} </li>
+        {% endfor %}
+        </ul>
+
+  </center>  
+</body>
+</html>

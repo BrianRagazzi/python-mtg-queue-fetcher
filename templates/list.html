@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}" type="text/css" />
+  </head>
+  <body>
+    <center>
+       <ul>
+
+        {% for item in list %}
+            <li> {{ item }} </li>
+        {% endfor %}
+       </ul>
+  </center>  
+</body>
+</html>
