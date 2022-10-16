@@ -14,15 +14,18 @@ populate dropdown from json obtained by scryfall
 ## Running on TAP
 
 ```bash
-tanzu apps workload create python-pipenv \
-  --git-repo https://github.com/benwilcock/python-pipenv \
+tanzu apps workload create python-mtg-queue-fetcher \
+  --git-repo https://github.com/BrianRagazzi/python-mtg-queue-fetcher \
   --git-branch main \
   --type web \
-  --label app.kubernetes.io/part-of=python-pipenv \
-  --label apps.tanzu.vmware.com/has-tests=true \
-  --param-yaml testing_pipeline_matching_labels='{"apps.tanzu.vmware.com/pipeline":"test", "apps.tanzu.vmware.com/language":"python"}' \
+  --label app.kubernetes.io/part-of=python-mtg-queue-fetcher \
+  --label apps.tanzu.vmware.com/has-tests=false \
   --annotation autoscaling.knative.dev/minScale=1 \
   --namespace default \
   --tail \
+  --env "RABBITMQ_HOST=192.168.103.27" \
+  --env "RABBITMQ_QUEUE=cards" \
+  --env "RABBITMQ_USERNAME=myuser" \
+  --env "RABBITMQ_PASSWORD=mypass" \
   --yes
 ```
