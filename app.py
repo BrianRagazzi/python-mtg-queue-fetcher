@@ -62,11 +62,12 @@ def loadset():
             
 
             if connection.is_open:
-                cardData = getCardData(setcode)
-                #addCardstoQueue(cardData=cardData, channel=channel)
+                cardData = json.loads(getCardData(setcode))
                 for card in cardData:
-                    #print(card["name"])
-                    channel.basic_publish(exchange='',routing_key=qname,body=str(card))
+                    #print("parsing cards")
+                    print(card["name"])
+                    
+                    channel.basic_publish(exchange='',routing_key=qname,body=json.dumps(card))
                 return render_template('submit.html', title="loadSet", client=setcode, placeholder="Items Added: %s" % len(cardData),codelist=setCodes(), list=cardData)
                 connection.close()
             else:
@@ -124,7 +125,7 @@ def getCardData(setcode):
             has_more = responseJson["has_more"]
         cardcount = len(carddata)
         print("final card count: %s" % cardcount)
-
+        carddata = json.dumps(carddata) #Restore valid json with double-quotes
         return carddata
 
     except HTTPError as http_err:
