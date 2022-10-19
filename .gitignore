@@ -128,3 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode
+
+# Specific files
+test.py
+notes.md
+card.json
