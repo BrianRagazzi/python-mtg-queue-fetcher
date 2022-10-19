@@ -5,6 +5,8 @@ import pika
 from pika.exceptions import AMQPConnectionError
 import requests
 from requests.exceptions import HTTPError
+from minio import Minio
+from minio.error import S3Error
 from crypt import methods
 from flask import Flask, request, render_template, jsonify
 import gunicorn
@@ -20,14 +22,18 @@ scryfall_card_serch="https://api.scryfall.com/cards/search?format=json&include_e
 
 host = os.getenv("RABBITMQ_HOST") or "192.168.103.27"
 qname = os.getenv("RABBITMQ_QUEUE") or "cards"
-
 rabbitmq_username = os.getenv("RABBITMQ_USERNAME") or "myuser"
 rabbitmq_password = os.getenv("RABBITMQ_PASSWORD") or "mypass"
+
+s3server = os.getenv("S3SERVER") or "minio.lab.brianragazzi.com"
+s3bucket = os.getenv("S3BUCKET") or "cardimages"
+s3accesskey = os.getenv("S3ACCESSKEY") or "MCACCESS"
+s3secretkey = os.getenv("S3SECRETKEY") or "MCSECRET"
 
 
 @app.route("/")
 def index():
-    return render_template('index.html', client=client, framework=framework,cards=cardsInQueue())
+    return render_template('index.html', client=client, framework=framework,cards=cardsInQueue(),cardimagecount=imagesinBucket())
 
 # @app.route('/messages')
 # def get_incomes():
@@ -95,6 +101,10 @@ def loadset():
 #     list = ["savannah", "plains", "Black Lotus"]
 #     return render_template('list.html', list=list)
 
+# @app.route('/cardimagecount')
+# def cardimagecount():
+#     return str(imagesinBucket())
+
 
 
 def setCodes():
@@ -150,6 +160,18 @@ def cardsInQueue():
         print(f'Other error occurred: {err}')
         return 0
 
+def imagesinBucket():
+    client = Minio(s3server,
+    access_key=s3accesskey,
+    secret_key=s3secretkey)
+    objcnt=0
+    if client.bucket_exists(s3bucket):
+        objects = client.list_objects(s3bucket)
+        for obj in objects:
+            objcnt=objcnt+1
+        return int(objcnt)
+    else:
+        return int(0)
 
 # not sure this is necessary
 # if __name__ == "__main__":
