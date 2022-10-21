@@ -6,11 +6,16 @@
   </head>
   <body>
     <center>
+        <p><a href="/"> Back to Home</a></p>
         {% if client %}
             <h2>{{client}}</h2>
         {% else %}
-            <p>client not set</p>
+            <p>&nbsp;</p>
         {% endif %}
+        <p>When a set selected and "Fetch Data" pressed, this app will query the api for the
+            data for all cards in that set.  Then each card data record as json willbe added 
+            to the Queue for processing by the workers
+        </p>
         <p>{{placeholder}}</p>
         <form action="{{ url_for("loadset")}}" method="post">
         Choose Set:<SELECT name="setcode">
@@ -19,7 +24,7 @@
             {% endfor %}
         </SELECT>
 
-        <button type="submit">Fetch Data</button>
+        <button type="submit">Fetch Card Data</button>
         <ul>
         {% for item in list %}
             <li>added {{ item["name"] }} </li>
