@@ -43,12 +43,16 @@ def main():
     channel.queue_declare(queue=qname, durable=True)
     # channel.basic_publish(exchange='',routing_key=qname,body="Hello World")
 
-    cardData = getCardData("mh2")
-    for card in cardData:
-        print(card["name"])
-        #print(card)
-        channel.basic_publish(exchange='',routing_key=qname,body=str(card))
-    connection.close()
+    #print(str(channel.consumer_tags.
+    print(os.uname()[1])
+
+
+    # cardData = getCardData("mh2")
+    # for card in cardData:
+    #     print(card["name"])
+    #     #print(card)
+    #     channel.basic_publish(exchange='',routing_key=qname,body=str(card))
+    # connection.close()
 
 
 # def setCodes():
