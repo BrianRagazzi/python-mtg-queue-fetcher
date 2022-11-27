@@ -135,3 +135,5 @@ notes.md
 card.json
 oracle-cards-*
 cards.csv
+default-cards-*
+testcard.json
