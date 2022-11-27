@@ -133,3 +133,5 @@ dmypy.json
 test.py
 notes.md
 card.json
+oracle-cards-*
+cards.csv
