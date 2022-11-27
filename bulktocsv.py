@@ -7,7 +7,7 @@ import json
 
 
 
-source_json="oracle-cards-20221126100305.json"
+source_json="default-cards-20221127100506.json"
 csv_filename="cards.csv"
 
 
@@ -39,6 +39,20 @@ def getCardValue(cardjson):
         val=""
     return val
 
+def getCardRarity(cardjson):
+    try:
+        val=cardjson["rarity"]
+    except KeyError:
+        val=""
+    return val
+
+def cardisDigital(cardjson):
+    try:
+        val=cardjson["digital"]
+    except KeyError:
+        val="false"
+    return val
+
 
 def main():
     print(" [*] Starting up")
@@ -48,23 +62,25 @@ def main():
     print(" [*] Retrieved card data")
     with open(csv_filename,"w") as csv_file:
         writer = csv.writer(csv_file, delimiter=',',doublequote=True,quoting=csv.QUOTE_ALL)
-        writer.writerow(["name","cmc","type_line","usd"])
+        writer.writerow(["name","cmc","type_line","usd","rarity"])
         for card in cardData:
             name=getCardName(card)
             cmc=getCardCMC(card)
             cardtype=getCardType(card)
             usd=getCardValue(card)
-            print(" [*] Adding " + name)
+            rarity=getCardRarity(card)
             if cardtype.startswith("Card"):
-                print("ignoring fake card")
+                print(" [-] Skipping fake Card: " + name)
             else:
-                row = [name,cmc,cardtype,usd]
-            writer.writerow(row)
-            
+                if cardisDigital(card):
+                    print(" [-] Skipping Digital Card: " + name)
+                else:
+                    print(" [+] Adding " + name)
+                    row = [name,cmc,cardtype,usd,rarity]
+                    writer.writerow(row)
+    print(" [*] Closing File, exiting")        
     csv_file.close()  
     bulk.close()
-
-
 
 
 
