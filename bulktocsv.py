@@ -34,7 +34,9 @@ def getCardType(cardjson):
 
 def getCardValue(cardjson):
     try:
-        val=cardjson["prices"]["usd"]
+        val=cardjson["prices"]["usd_foil"]
+        if cardjson["nonfoil"]:
+            val=cardjson["prices"]["usd"]
     except KeyError:
         val=""
     return val
@@ -53,6 +55,13 @@ def cardisDigital(cardjson):
         val="false"
     return val
 
+def cardisFoil(cardjson):
+    try:
+        val=cardjson["foil"]
+    except KeyError:
+        val="false"
+    return val
+
 
 def main():
     print(" [*] Starting up")
@@ -62,7 +71,7 @@ def main():
     print(" [*] Retrieved card data")
     with open(csv_filename,"w") as csv_file:
         writer = csv.writer(csv_file, delimiter=',',doublequote=True,quoting=csv.QUOTE_ALL)
-        writer.writerow(["name","cmc","type_line","usd","rarity"])
+        writer.writerow(["name","cmc","type_line","usd","rarity","foil"])
         for card in cardData:
             name=getCardName(card)
             cmc=getCardCMC(card)
@@ -76,7 +85,7 @@ def main():
                     print(" [-] Skipping Digital Card: " + name)
                 else:
                     print(" [+] Adding " + name)
-                    row = [name,cmc,cardtype,usd,rarity]
+                    row = [name,cmc,cardtype,usd,rarity,str(cardisFoil(card))]
                     writer.writerow(row)
     print(" [*] Closing File, exiting")        
     csv_file.close()  
