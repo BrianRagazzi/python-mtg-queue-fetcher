@@ -2,6 +2,9 @@ apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
   name: python-mtg-queue-fetcher
+  links:
+    - url: https://python-mtg-queue-fetcher.tap.brianragazzi.com/
+      title:  running instance
   description: Python MTG Queue Fetcher
   tags:
     - python
