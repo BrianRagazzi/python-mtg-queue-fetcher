@@ -23,7 +23,7 @@ tanzu apps workload create python-mtg-queue-fetcher \
   --annotation autoscaling.knative.dev/minScale=1 \
   --namespace default \
   --tail \
-  --env "RABBITMQ_HOST=192.168.103.27" \
+  --env "RABBITMQ_HOST=192.168.103.10" \
   --env "RABBITMQ_QUEUE=cards" \
   --env "RABBITMQ_USERNAME=myuser" \
   --env "RABBITMQ_PASSWORD=mypass" \
